@@ -1,0 +1,24 @@
+
+\ifgerman{\chapter{Verwandte Arbeiten}}{\chapter{Related Work}}
+\label{relatedwork}
+
+In this chapter, previously carried out implementations in the area of document matching as well as Latent Dirichlet Allocation are discussed. Various concepts exist to improve the execution time in the field of LDA algorithms with parallel computational processing .  \ref{section: mpi based} and \ref{section: Mapreduce based} provides information on such implementations which focuses primarily on improving the LDA algorithms for parallel environments.
+
+
+\section{MPI Based Implementation}
+\label{section: mpi based}
+The first part of the paper \cite{wang2009plda} discusses the parallel implementation of Latent Dirichlet Allocation (LDA) using MPI programming model. The implementation uses AllReduce algorithm in assistance with the MPI. The major focus of the implementation was to parallelize the process of  topic assignment of the documents in huge collection there by achieving the scalability. Finally, the authors measured the speed up and execution time of the implementation. The authors also made available the source code of MPI implementation under Apache open source License.
+
+\section{MapReduce Based Implementation}
+\label{section: Mapreduce based}
+
+In the same paper \cite{wang2009plda}, the authors discusses the implementation of LDA using MapReduce programming model. In \ref{section: Mapreduce}, the core concepts regarding MapReduce programming model along with its advantages and limitations are discussed in detail. The implementation process the huge volume of data by dividing and distributing them across multiple workers in a cluster. As discussed in \ref{section: Mapreduce}, the Mapreduce programming model consists of two stages namely map and reduce. The authors defined the map phase as sampling phase where topic assignment of the documents using gibbs algorithm takes place. Then, the reduce phase receives these topic assignments and update the model. The implement application is then measured for Speedup and execution time. The two datasets namely Wikipedia and Forum dataset are used for evaluating the speedup performance. A comparison has made between the MPI based and MapReduce based implementations where the implementation based on the MPI over rules the MapReduce based implementations and the reasons are discussed.
+
+
+\par The work in  \cite{elsayed2008pairwise} discusses about the problems associated with the computations of pairwise document matching based on their similarity with in set of documents in huge volume. The author presented an implementation using Mapreduce programming model as a solution to the above addressed problem. The chief purpose of the paper focuses on processing the huge set of documents by representing them as bag of words irrespective of the order along with their term weights. The term weights provides information of the term importance in any document. The implements indexing of documents in Map phase and computes pairwise similarity in reduce phase. The implementation was evaluated on cluster consists of 20 machines and calculated the runtime performance. For evaluation, AQUAINT-2 dataset is used. 
+
+
+
+
+
+

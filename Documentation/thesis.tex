@@ -1,0 +1,203 @@
+\documentclass[
+	dbse, 		 % include logo of DBSE working group
+    %draft,    % omit title page, listings, and particular chapters selected below using include only
+	%german,   % titles for a thesis in German, A4 paper
+	%print,    % the printed version does not use colored links
+	final,    % removes all TODOs
+	a4paper   % forces A4 format even if <german> is not selected (useful for printing)
+]{tex/ttthesis}
+
+\input{tex/colorscheme}
+\input{tex/lststyles}
+\input{tex/tikzstyles}
+\input{tex/macros}
+
+%*********************************************************************%
+% META                                                                %
+%*********************************************************************%
+
+% available profiles: ovgu, tubs, tubs_isf
+\input{tex/profiles/ovgu}
+
+\newcommand{\advisorone}{Dr.Ing {Eike Schallehn}}
+%\newcommand{\advisortwo}{M.SC. Xiao Chen}
+\newcommand{\departmentone}{Workgroup Databases and Software Engineering}
+
+
+% Thesis kind
+\ifgerman{\newcommand{\thesiskind}{Masterarbeit}}{\newcommand{\thesiskind}{Master's Thesis}}
+%\ifgerman{\newcommand{\thesiskind}{Bachelorarbeit}}{\newcommand{\thesiskind}{Bachelor Thesis}}
+%\newcommand{\thesiskind}{Diplomarbeit} %do not translate
+%\ifgerman{\newcommand{\thesiskind}{Doktorarbeit}}{\newcommand{\thesiskind}{Dissertation}}
+
+\ifgerman{
+	\newcommand{\theforename}{\todo{Vorname}}
+	\newcommand{\thesurname}{\todo{Nachname}}
+	\newcommand{\thetitle}{\todo{Titel der Arbeit}}
+	\newcommand{\thedate}{\todo{13. Monat 2014}}
+}{
+	\newcommand{\theforename}{Dharani Kumar}
+	\newcommand{\thesurname}{Pasumarthi}
+	\newcommand{\thetitle}{Evaluating the Efficiency of Parallel Semantic Document Matching using Apache Spark}
+	\newcommand{\thedate}{May 3, 2018}
+}
+\newcommand{\theyear}{2018}
+%date for signature in erklaerung.tex (declaration of originality)
+\newcommand{\signaturedate}{03 May 2018}
+
+%*********************************************************************%
+% SETUP                                                               %
+%*********************************************************************%
+
+% meta informations of the document
+\hypersetup{
+ pdfauthor={\theforename\ \thesurname},
+ pdftitle={\thetitle}
+}
+
+% open index file
+\ifnotdraft{\makeindex}
+
+%*********************************************************************%
+% ACRONYMS                                                            %
+%*********************************************************************%
+
+% HOWTO: \gls{IDE} for singular or \glspl{IDE} for plural with 's
+%\makeglossaries
+\newacronym{IDE}{IDE}{Integrated Development Environment}
+%\glsaddall % use only if you have acronyms that occur only in graphics
+
+%*********************************************************************%
+% THE DOCUMENT                                                        %
+%*********************************************************************%
+
+\begin{document}
+
+\ifgerman{
+	\labelformat{lstlisting}{Quelltext~#1}
+	\renewcommand{\lstlistingname}{Quelltext}
+}{
+	\labelformat{lstlisting}{Listing~#1}
+}
+
+% set the path where graphics are located
+\graphicspath{{pics/}}
+
+\ifnotdraft{
+	\frontmatter
+	\pagenumbering{roman}
+	\include{tex/titlepage}
+
+	\include{chapters/abstract}
+	\blankpage
+	
+	\chapter*{Acknowledgements}
+    Firstly, I would like to thank Dr. Eike Schallehn for providing me an opportunity to work under him and for his advise, encouragement throughout this thesis.
+    \par I would also like to thank M.sc Xiao Chen and M.sc Yang Li for their assistance in answering all my queries.
+    \par I would also thank Prof. Dr.-Ing. Andreas Nürnberger for spending time of his busy schedule to review my thesis. 
+    \par This accomplishment would not be possible without my uncle's Narayana Rao, Srinivas. I am grateful to them for believing in me and supported certainly from day one.
+    \par I thank my family and friends for their love and support.
+	%\ldots 
+	\blankpage
+    
+    \chapter*{Declaration of Academic Integrity}
+    I hereby declare that this thesis is solely my own work and I have cited all external sources used.
+\newline
+\par\textit{Magdeburg, \(03^{rd}\) May 2018}
+
+
+\begin{tabular}{p{0.45\textwidth}cp{0.45\textwidth}}
+   \cline{3-3} \\
+   & & \centering \textbf{Dharani Kumar Pasumarthi} 
+\end{tabular}
+    \blankpage
+}
+
+%*********************************************************************%
+% LISTINGS                                                            %
+%*********************************************************************%
+
+\ifnotdraft{
+	{\parskip 0pt \pdfbookmark{\contentsname}{\contentsname}\chapterheadfont \tableofcontents} % toc bitte einzeilig
+	\blankpage
+
+	\ifgerman{
+		\listoffigures
+		\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+
+		\listoftables
+		\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+
+		\renewcommand{\lstlistlistingname}{Quelltextverzeichnis}
+		\blankpage
+		\lstlistoflistings
+		\addcontentsline{toc}{chapter}{\lstlistlistingname}
+
+		%\renewcommand*{\firstacronymfont}[1]{\emph{#1}}
+		%\printglossary[type=acronym,title=List of Acronyms,toctitle=Abkürzungsverzeichnis]
+	}{
+		\listoffigures
+		\addcontentsline{toc}{chapter}{List of Figures}
+
+		\listoftables
+		\addcontentsline{toc}{chapter}{List of Tables}
+
+		\renewcommand{\lstlistlistingname}{List of Code Listings}
+		\blankpage
+		\lstlistoflistings
+		\addcontentsline{toc}{chapter}{\lstlistlistingname}
+
+		%\renewcommand*{\firstacronymfont}[1]{\emph{#1}}
+		%\printglossary[type=acronym,title=List of Acronyms,toctitle=List of Acronyms]
+	}
+}
+
+%*********************************************************************%
+% CHAPTERS                                                            %
+%*********************************************************************%
+
+\mainmatter
+\pagenumbering{arabic}
+
+\include{chapters/introduction}
+\include{chapters/background}
+\include{chapters/concept}
+\include{chapters/implementation}
+\include{chapters/evaluation}
+\include{chapters/conclusion}
+\include{chapters/futurework}
+
+
+
+%*********************************************************************%
+% APPENDIX                                                            %
+%*********************************************************************%
+
+%\appendix
+%\include{chapters/appendix}
+
+%*********************************************************************%
+% LITERATURE                                                          %
+%*********************************************************************%
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\bibname} % 
+\bibliographystyle{IEEEtran} % plain gerplain abbrvnat unsrtnat alphag alpha
+% in a thesis you have space... use full names
+\bibliography{literature/Dharani}
+% in a paper, space is limited. use abreviations
+%\bibliography{../literature/IEEEabrv,../literature/MYabrv,../literature/literature}
+
+%*********************************************************************%
+% ERKLÄRUNG                                                           %
+%*********************************************************************%
+
+\ifnotdraft{
+	\cleardoublepage
+	\phantomsection
+	\printindex
+	%\include{tex/erklaerung}
+}
+
+\end{document}

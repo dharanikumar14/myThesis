@@ -1,0 +1,63 @@
+\ifgerman{\chapter{Einführung}}{\chapter{Introduction}}
+\label{introduction}
+%- Hintergrund
+%- Motivation
+%- Ziele
+%- Aufgaben
+%- Allgemeine Beschreibung des Projektes
+%- Worum geht es in dieser Arbeit?
+%- Wer hat die Arbeit veranlasst und wozu?
+%- Wer soll von den Ergebnissen profitieren?
+%- Welches Problem soll gelöst werden? Warum?
+%- Unter welchen Umständen braucht man eine Verbesserung?
+%- Was ist der Stand der Technik?
+%- Welche noch offenen Probleme gibt es?
+%- Worin unterscheidet sich mein Ansatz von den bisherigen?
+%- Welche Ziele hat die Arbeit?
+%- Wie will ich diese Ziele erreichen?
+%- Was habe ich im Einzelnen vor?
+
+In the age of the digital world, the volume of the data is increasing exponentially day to day. Processing of the huge amount of documents in an efficient manner is becoming challenging and detecting the documents that are semantically similar within these huge data collections comes with various problems as the data needs to be converted to feature vectors representation. The problem arises because the feature vector are represented as sparse vectors and can be very high dimensional which requires high computational utilization.
+
+\par One of the generally addressed approaches is to resolve the above mentioned problem by including the dimensionality reduction techniques in which the dimensions of the feature vectors are reduced without any data loss. But as the feature vector representation is only reliable on word occurrences, it can not be used for comparing documents based on semantic similarity. 
+
+\par With the Latent Dirichlet Allocation (LDA) techniques along with the word occurrences, the structure of the document can also be considered. But the LDA techniques constitutes high intensive computations which can not be handled by a single computational machine. Hence, the process required to be implemented in a distributed environment. The distributed environment consists of several machines that are connected with each other and the task is divided among the machines resulting in parallel processing.
+
+\par As MapReduce based implementations are already existing, we aspired to implement the parallel semantic document matching application using the Apache Spark ecosystem. Apache Spark is an open source, an in-memory data processing engine for faster computations \cite{spark:website}. The advantage with the Apache Spark is that the speed as it process majority of the computation in-memory.
+
+\newpage
+\paragraph{Goal of this Thesis}
+
+The major goal of the thesis is to implement an application that compares any two documents in a corpus and find the similarity between them based on the semantics with in the Apache Spark framework. Also, to evaluate the efficiency and effectiveness of the application using diverse performance metrics.
+
+\par The following tasks are carried out in progress of attaining the goal:
+
+\begin{itemize}
+\item The design and implementation of parallel semantic document matching application is developed. The application primarily encompasses six stages includes pre-processing, Count Vectorizer, LDA Modeling, Document pair comparison, classification, and evaluation. Using components from Apache Spark, all these stages are implemented.
+
+\item To asses the application in a parallel environment, evaluations are carried out in terms of runtime performance, speed-up and efficiency. Additionally, to evaluate the quality of the results, measures like precision, recall and F-measure are also calculated. All these assessments are carried out on different sizes of datasets. 
+\end{itemize}
+
+
+
+\paragraph{Structure of the Thesis}
+
+This thesis has been structured in the following format:
+
+\begin{itemize}
+\item \ref{introduction} provides an insight into the motivation and goals of the thesis.
+
+\item \ref{background} is structured to provide the in-detail bedrock information required to understand the thesis as well as provides information on the related work in the fields of Latent Dirichlet Allocation (LDA) and document matching.
+
+
+\item In \ref{concept}, we provide the information about the idea and the concept associated in developing the spark based semantic document matching application. 
+
+\item \ref{implementation} discusses the process of implementation of this thesis.
+
+\item In \ref{evaluation}, we discuss the results achieved by performing the evaluations.
+
+\item In \ref{conclusion}, we conclude the thesis by presenting the experimental findings achieved on performing various experiments.
+
+\item The possible areas of directions where the thesis can be extended is discussed in \ref{futurework}.
+\end{itemize}
+
