@@ -7,6 +7,7 @@ In the cloud and web based scenarios, the volume of the documents from various p
 - PySpark 2.2
 - Python 3
 - Jupyter notebook 
-- Numpy- Scipy
+- Numpy
+- Scipy
 - Databricks xml
 - minidom
