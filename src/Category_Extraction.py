@@ -1,8 +1,12 @@
+# The following code extracts category information from the raw xml documents(golden data) for evalutation purposes
+# the code runs as a combination of non-parallel and parallel environments
 
 from xml.dom import minidom
 import os
 directory = '/home/pasumart/rcv1'
 finallist = []
+
+#Required attributes from a individual document is appended to a list
 
 for root,dirs,filenames in os.walk(directory):
         for file in filenames:
@@ -19,6 +23,7 @@ for root,dirs,filenames in os.walk(directory):
             finallist.append(value)
             finallist.append(words)
 
+
 			
 from pyspark.sql import SparkSession
 from pyspark.sql import Row
@@ -30,13 +35,15 @@ from pyspark.sql.functions import col,udf
 from itertools import islice
 from pyspark.sql.types import BooleanType,IntegerType
 
-spark = SparkSession.builder.appName('toExtractTopics.rawxml').getOrCreate()
+spark = SparkSession.builder.appName('toExtractTopics.rawxml').getOrCreate()		#Spark process begins from here
 
 df_first = spark.createDataFrame([(x,y) for x,(y) in (zip(
             islice(finallist,0,len(finallist),2),
-            islice(finallist,1,len(finallist),2)))],('DocID','Categories'))
+            islice(finallist,1,len(finallist),2)))],('DocID','Categories'))		#the list obtained is converted to a dataFrame
 
 limit_df = df_first.limit(100000)
+
+#cleaning of the dataFrame to eliminate unwanted information
 
 Filter_regions = StopWordsRemover(inputCol='Categories',outputCol='Topics',stopWords=['AARCT','ABDBI','AFGH','AFRICA','AJMN','ALADI','ALB','ALG','AMSAM',
 'ANDEAN','ANDO','ANGOL','ANGUIL','ANTA','ANZUS','APEC','ARABST','ARG','ARMEN','ARMHG','ARUBA','ASEAN','ASIA','AUSNZ','AUST','AUSTR',
