@@ -32,7 +32,7 @@ custom = StructType([
 		StructField("metadata", StringType(), True),
 		StructField("dc", StringType(), True),
 		StructField("text", StringType(), False),
-		StructField("title", StringType(), True),])
+		StructField("title", StringType(), True),])				#customized dataFrame 
 
 xmlDf = spark.read.format('com.databricks.spark.xml').options(rowTag='newsitem').load('hdfs://hadoop-dbse/user/pasumart/input_dataset/*',schema= custom).limit(10000)
 
@@ -40,16 +40,16 @@ df_first= xmlDf.select(col('_itemid').alias('DocId'),'text')
 
 
 
-tokens = RegexTokenizer(minTokenLength=2,inputCol='text', outputCol='Words', pattern="[^a-z]+") 
+tokens = RegexTokenizer(minTokenLength=2,inputCol='text', outputCol='Words', pattern="[^a-z]+") #tokenizing the sentences to words
 
 Tokenized = tokens.transform(df_first)
 
-Tokens_filtered = StopWordsRemover(inputCol='Words',outputCol='filtered_words')
+Tokens_filtered = StopWordsRemover(inputCol='Words',outputCol='filtered_words')		#filtering the words that contains stopwords
 
 Tokenized_filtered = Tokens_filtered.transform(Tokenized)
 
 
-cv = CountVectorizer(inputCol="filtered_words", outputCol="features")
+cv = CountVectorizer(inputCol="filtered_words", outputCol="features")		#constructing a matrix that maps each unique word to a unique ID
 
 cv_model = cv.fit(Tokenized_filtered)  
 
@@ -59,7 +59,7 @@ result1 = result.select('DocId','features').repartition(part)
 
 #result1.show()
 
-lda = LDA(k=90,maxIter=20,optimizer = "em")       
+lda = LDA(k=90,maxIter=20,optimizer = "em")       #constructing a LDA model from the obtained words matrix
 
 model = lda.fit(result1)
 
@@ -82,6 +82,8 @@ def threshold(value):
 threshold_udf = udf(threshold,IntegerType())
 
 final_df = lda_df.select('DocId','topicDistribution').repartition(part)
+
+#self joining the obtained dataFrame by aliasing the column names for document matching
 
 similarity_df = final_df.join(final_df.alias("copy_df").select(col("DocId").alias("DocId2"),col("topicDistribution").alias("topic")),\
                                  col("DocId") < col("DocId2"), 'inner')\
@@ -110,6 +112,7 @@ print("True_postivies: " +str(True_Positives))
 print("False_negatives: " +str(False_Negatives))
 print("False_positives: " +str(False_Positives))
 
+# To measure the effectiveness of the results obtaied
 
 precision = True_Positives/(True_Positives + False_Positives)
 
